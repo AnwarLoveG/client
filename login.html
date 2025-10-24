@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Comunicazione via Websocket</title>
+  <script>
+
+    "use strict";
+    function gestoreRicezione(messaggioRicevuto){
+      console.log(messaggioRicevuto.data);
+      if(messaggioRicevuto.data=="rlo|login effettuato")
+      document.getElementById("login").style.display="none"
+      document.getElementById("mess").style.display="show"
+    }
+    
+    let ws = new WebSocket("ws://10.1.0.52:8090/chat25/5i1"); // [2]
+    ws.onmessage = gestoreRicezione;
+
+    function inviaLogin(){
+      let nome= document.getElementById("nome").value;
+      let password= document.getElementById("password").value;
+        let messaggioDaInviare = "log|"+nome+"|"+password;
+        ws.send( messaggioDaInviare );  // [3]
+    }
+    function chiudiLaConnessione(){
+        ws.close();  // [4]
+     }
+
+  </script>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <section id="login">
+    <div><label > Nome: </label>
+    <input class="msg" id="nome" type="text">
+    <br>
+    <label> Password: </label>
+    <input  class="msg" id="password" type="text">
+  </div>
+    <div><button id="invia" onClick="inviaLogin()">Invia! </button>   <button id="chiudi" onClick="chiudiLaConnessione()">Chiudi</button></div>
+</section>
+<section id="mess">
+  <label>  Invia messaggio </label>
+  <input class="msg" id="nome" type="text">
+  <button id="invia" onclick="">Invia messaggio</button>
+</section>
+
+</body>
+</html>
