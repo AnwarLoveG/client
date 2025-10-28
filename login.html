@@ -9,21 +9,27 @@
     function gestoreRicezione(messaggioRicevuto){
       console.log(messaggioRicevuto.data);
       if(messaggioRicevuto.data=="rlo|login effettuato")
-      document.getElementById("login").style.display="none"
-      document.getElementById("mess").style.display="show"
+      document.getElementById("login").style.display="none";
+      document.getElementById("mess").style.display="block";
     }
     
     let ws = new WebSocket("ws://10.1.0.52:8090/chat25/5i1"); // [2]
     ws.onmessage = gestoreRicezione;
-
+    let NomeUtente ; 
     function inviaLogin(){
-      let nome= document.getElementById("nome").value;
       let password= document.getElementById("password").value;
+      let nome= document.getElementById("nome").value;
+      NomeUtente=nome;
         let messaggioDaInviare = "log|"+nome+"|"+password;
         ws.send( messaggioDaInviare );  // [3]
     }
     function chiudiLaConnessione(){
         ws.close();  // [4]
+     }
+     function inviaMess(){
+      let messaggioDaInviare= document.getElementById("nome").value;
+      let data = Date();
+      ws.send("msg|"+NomeUtente+"|"+data+"|"+messaggioDaInviare);
      }
 
   </script>
@@ -42,7 +48,7 @@
 <section id="mess">
   <label>  Invia messaggio </label>
   <input class="msg" id="nome" type="text">
-  <button id="invia" onclick="">Invia messaggio</button>
+  <button id="invia" onclick="inviaMess()">Invia messaggio</button>
 </section>
 
 </body>
