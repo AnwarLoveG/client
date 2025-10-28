@@ -8,12 +8,16 @@
     "use strict";
     function gestoreRicezione(messaggioRicevuto){
       console.log(messaggioRicevuto.data);
-      if(messaggioRicevuto.data=="rlo|login effettuato")
-      document.getElementById("login").style.display="none";
-      document.getElementById("mess").style.display="block";
+      if(messaggioRicevuto.data=="rlo|login effettuato"){
+        document.getElementById("login").style.display="none";
+        document.getElementById("mess").style.display="block";
+      }else{
+        document.getElementById("login").style.display="none";
+        document.getElementById("logF").style.display="block";
+      }
     }
     
-    let ws = new WebSocket("ws://10.1.0.52:8090/chat25/5i1"); // [2]
+    let ws = new WebSocket("ws://10.1.0.52:8090/chat25/5i1"); 
     ws.onmessage = gestoreRicezione;
     let NomeUtente ; 
     function inviaLogin(){
@@ -21,17 +25,22 @@
       let nome= document.getElementById("nome").value;
       NomeUtente=nome;
         let messaggioDaInviare = "log|"+nome+"|"+password;
-        ws.send( messaggioDaInviare );  // [3]
+        ws.send( messaggioDaInviare );  
     }
     function chiudiLaConnessione(){
-        ws.close();  // [4]
+        ws.close(); 
      }
      function inviaMess(){
       let messaggioDaInviare= document.getElementById("nome").value;
       let data = Date();
       ws.send("msg|"+NomeUtente+"|"+data+"|"+messaggioDaInviare);
      }
-
+     function riprova(){
+      document.getElementById("logF").style.display="none"
+      document.getElementById("login").style.display="block";
+      document.getElementById("mess").style.display="none";
+     }
+    
   </script>
     <link rel="stylesheet" href="index.css">
 </head>
@@ -44,6 +53,10 @@
     <input  class="msg" id="password" type="text">
   </div>
     <div><button id="invia" onClick="inviaLogin()">Invia! </button>   <button id="chiudi" onClick="chiudiLaConnessione()">Chiudi</button></div>
+</section>
+<section id="logF">
+  <label >Login Errato!</label>
+  <button id="rinizzializza" onclick="riprova()">Riprova</button>
 </section>
 <section id="mess">
   <label>  Invia messaggio </label>

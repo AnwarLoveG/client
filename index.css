@@ -118,3 +118,18 @@
     #mess{
         display: none;
     }
+    #logF{
+        font-size: 50px;
+        display: none;
+    }
+    #rinizzializza{
+        padding: 20px;
+        font-size: 15px;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background-color: lime;
+    }
